@@ -1,1 +1,15 @@
 GIOCHINO ONLINE PER D'AGATA -- SOCKET
+
+VISUALE TOP DOWN
+grafica pokemon smeraldo
+stile baldi's basics
+
+multiplayer -->
+  - fino a 4 giocatori
+  - notebook in base a quanti giocatori ci sono
+  - i giocatori possono aprire i notebook solo del proprio colore
+  - conteggio notebook personali e totali
+
+
+IDEE:
+ - ruolo a uno -> collaboratore bot
