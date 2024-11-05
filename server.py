@@ -19,7 +19,7 @@ s.listen(2)
 
 print("Waiting for a connection. SERVER STARTED")
 
-players = [Player(0, 0, 50, 50, (255,0,0)), Player(100, 100, 50, 50, (0,0,255))]
+players = [Player(0, 0, (255,0,0), 1), Player(100, 100, (0,0,255), 2)]
 
 def threaded_client(conn, player):
     conn.send(pickle.dumps(players[player]))
