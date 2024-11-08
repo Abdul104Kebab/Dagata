@@ -3,8 +3,8 @@ import pickle
 
 class Network:
     def __init__(self):
-        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server = "192.168.178.104"
+        self.client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.server = "192.168.178.131"
         self.port = 5555
         self.addr = (self.server, self.port)
         self.p = self.connect()
@@ -14,14 +14,17 @@ class Network:
 
     def connect(self):
         try:
-            self.client.connect(self.addr)
-            return pickle.loads(self.client.recv(2048))
+            self.client.sendto(pickle.dumps("connect"), self.addr)
+            data, _ = self.client.recvfrom(2048)
+            return pickle.loads(data)
         except: 
-            pass
+            print("MAUROBOLGIA")
 
     def send(self, data):
         try:
-            self.client.send(pickle.dumps(data))
-            return pickle.loads(self.client.recv(2048))
+            self.client.sendto(pickle.dumps(data), self.addr)
+            data, _ = self.client.recvfrom(2048)
+            return pickle.loads(data)
         except socket.error as e:
             print(e)
+            return None

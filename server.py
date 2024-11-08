@@ -7,7 +7,7 @@ import pickle
 server = "192.168.178.104"
 port = 5555
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 
 try:
@@ -15,43 +15,41 @@ try:
 except socket.error as e:
     str(e)
 
-s.listen(2)
-
 print("Waiting for a connection. SERVER STARTED")
 
 players = [Player(0, 0, (255,0,0), 1), Player(100, 100, (0,0,255), 2)]
+client_addresses = {}
 
-def threaded_client(conn, player):
-    conn.send(pickle.dumps(players[player]))
-    reply = ""
-    while True:
-        try:
-            data = pickle.loads(conn.recv(2048))
-            players[player] = data
 
-            if not data:
-                print("disconnected")
-                break
-            else:
-                if player == 1:
-                    reply = players[0]
-                else:
-                    reply = players[1]
-                print("received: ", reply)
-                print("sending: ", reply)
+def handle_client(data, addr):
+    """ Gestisce i dati ricevuti da un client e invia la risposta. """
+    if addr not in client_addresses:
+        # Se il client non è ancora registrato, aggiungilo
+        if len(client_addresses) < 2:
+            player_id = len(client_addresses)
+            client_addresses[addr] = player_id
+            print(f"Nuovo giocatore {player_id + 1} connesso da {addr}")
+        else:
+            print("Massimo numero di giocatori raggiunto")
+            return
 
-            conn.sendall(pickle.dumps(reply))
+    # Recupera il player_id del client e aggiorna i suoi dati
+    player_id = client_addresses[addr]
+    player_data = pickle.loads(data)  # Decodifica i dati inviati dal client
+    players[player_id] = player_data  # Aggiorna i dati del giocatore
 
-        except:
-            break
-    print("Lost connection")
-    conn.close()
+    # Determina l'avversario e invia i suoi dati al client
+    opponent_id = 1 - player_id  # Se il giocatore è 0, l'avversario sarà 1, e viceversa
+    reply = players[opponent_id]
 
-currentPlayer = 0
+    # Invia la risposta con i dati dell'avversario al client
+    s.sendto(pickle.dumps(reply), addr)
+
 while True:
-    conn, addr = s.accept()
-    print("Connecting to:", addr)
-
-    start_new_thread(threaded_client, (conn, currentPlayer))
-    currentPlayer += 1
+    try:
+        data, addr = s.recvfrom(2048)
+        
+        handle_client(data, addr)
+    except Exception as e:
+        print(f"Errore durante la gestione della comunicazione: {e}")
 

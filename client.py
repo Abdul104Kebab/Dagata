@@ -11,8 +11,12 @@ clientNumber = 0
 
 def redrawWindow(win, player, player2):
     win.fill((255,255,255))
-    player2.draw(win)
+    try:
+        player2.draw(win)
+    except:
+        print(player2)
     player.draw(win)
+    
     
     pygame.display.update()
 
@@ -25,7 +29,6 @@ def main():
 
     while run:
         clock.tick(60)
-
         p2 = n.send(p)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
