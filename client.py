@@ -9,15 +9,12 @@ pygame.display.set_caption("Client")
 
 clientNumber = 0
 
-def redrawWindow(win, player, player2):
-    win.fill((255,255,255))
-    try:
-        player2.draw(win)
-    except:
-        print(player2)
-    player.draw(win)
-    
-    
+def redrawWindow(win, player, players):
+    win.fill((255,0,0))
+    for i in players:
+        if i!="players":
+            i.draw(win)
+
     pygame.display.update()
 
 def main():
@@ -26,16 +23,21 @@ def main():
     n = Network()
     p = n.getP()
     clock = pygame.time.Clock()
+    plrs = n.send() #mi salvo l'intera lista dei giocatori
 
     while run:
         clock.tick(60)
-        p2 = n.send(p)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
-        p.move()
-        redrawWindow(win, p, p2)
+        
+        plrs[p].move()
+        n.update(plrs[p])
+        plrs = n.send()
+
+        redrawWindow(win, p, plrs)
 
 main()
 

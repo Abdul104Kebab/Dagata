@@ -17,7 +17,7 @@ except socket.error as e:
 
 print("Waiting for a connection. SERVER STARTED")
 
-players = [Player(0, 0, (255,0,0), 1), Player(100, 100, (0,0,255), 2)]
+players = [Player(0, 0, 1), Player(0, 100, 2), Player(0, 200, 3), Player(0, 300, 4)]
 client_addresses = {}
 
 
@@ -25,7 +25,7 @@ def handle_client(data, addr):
     """ Gestisce i dati ricevuti da un client e invia la risposta. """
     if addr not in client_addresses:
         # Se il client non è ancora registrato, aggiungilo
-        if len(client_addresses) < 2:
+        if len(client_addresses) < 4:
             player_id = len(client_addresses)
             client_addresses[addr] = player_id
             print(f"Nuovo giocatore {player_id + 1} connesso da {addr}")
@@ -33,17 +33,17 @@ def handle_client(data, addr):
             print("Massimo numero di giocatori raggiunto")
             return
 
-    # Recupera il player_id del client e aggiorna i suoi dati
-    player_id = client_addresses[addr]
-    player_data = pickle.loads(data)  # Decodifica i dati inviati dal client
-    players[player_id] = player_data  # Aggiorna i dati del giocatore
 
-    # Determina l'avversario e invia i suoi dati al client
-    opponent_id = 1 - player_id  # Se il giocatore è 0, l'avversario sarà 1, e viceversa
-    reply = players[opponent_id]
 
-    # Invia la risposta con i dati dell'avversario al client
-    s.sendto(pickle.dumps(reply), addr)
+    dati = pickle.loads(data)
+    # RISPOSTE
+    if (dati == "connect"):
+        s.sendto(pickle.dumps(player_id), addr)
+    elif (dati == "players"):
+        s.sendto(pickle.dumps(players), addr)
+    elif (type(dati) is Player):
+        player_id = client_addresses[addr]
+        players[player_id] = dati
 
 while True:
     try:

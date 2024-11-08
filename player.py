@@ -2,10 +2,9 @@ import pygame
 
 class Player():
 
-    def __init__(self, x, y, color, player):
+    def __init__(self, x, y, player):
         self.x = x
         self.y = y
-        self.color = color
         self.vel = 3
 
         self.width = 50
@@ -13,7 +12,7 @@ class Player():
         self.player = player
 
         self.definisciSprite(player)
-        self.immagineAttuale = self.stazionario
+        self.immagineAttuale = ""
 
         self.up = False
         self.down = False
@@ -24,7 +23,7 @@ class Player():
 
     def draw(self, win):
         imm = pygame.image.load(self.camminaGiu[0])
-
+        print("a" + str(self.walkCount))
         if self.walkCount == 9:
             self.walkCount = 1
         if self.up:
@@ -39,6 +38,8 @@ class Player():
         elif self.left:
             imm = pygame.image.load(self.camminaSinistra[self.walkCount-1])
             self.walkCount += 1
+        print("b" + str(self.walkCount))
+
         imm = pygame.transform.scale(imm, (self.width, self.height))
         win.blit(imm, (self.x, self.y))
 
@@ -50,20 +51,15 @@ class Player():
 
         if keys[pygame.K_a]: #SINISTRA
             self.x -= self.vel
-            self.immagineAttuale = self.movimento
 
         if keys[pygame.K_d]: #DESTRA
             self.x += self.vel
-            self.immagineAttuale = self.movimento
-            
 
         if keys[pygame.K_w]: #ALTO
             self.y -= self.vel
-            self.immagineAttuale = self.movimento
 
         if keys[pygame.K_s]: #BASSO
             self.y += self.vel
-            self.immagineAttuale = self.movimento
         
         self.down = keys[pygame.K_s]
         self.up = keys[pygame.K_w]
@@ -72,9 +68,7 @@ class Player():
 
         #se non si muove
         if (keys[pygame.K_a] == keys[pygame.K_s] == keys[pygame.K_d] == keys[pygame.K_w] == False):
-            self.immagineAttuale = self.stazionario
             self.up = False
-
 
         self.update()
 
@@ -85,8 +79,6 @@ class Player():
         return self.immagineAttuale
     
     def definisciSprite(self, p):
-        self.stazionario = "./sprite/giocatore"+str(p)+"/gioc.png"
-        self.movimento = "./sprite/giocatore"+str(p)+"/gioc_mov.png"
 
         self.camminaSu = [
             f"./sprite/giocatore{p}/su/1.png",
