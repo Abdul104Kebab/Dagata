@@ -23,7 +23,7 @@ class Player():
 
     def draw(self, win):
         imm = pygame.image.load(self.camminaGiu[0])
-        print("a" + str(self.walkCount))
+
         if self.walkCount == 9:
             self.walkCount = 1
         if self.up:
@@ -38,7 +38,6 @@ class Player():
         elif self.left:
             imm = pygame.image.load(self.camminaSinistra[self.walkCount-1])
             self.walkCount += 1
-        print("b" + str(self.walkCount))
 
         imm = pygame.transform.scale(imm, (self.width, self.height))
         win.blit(imm, (self.x, self.y))
@@ -79,7 +78,17 @@ class Player():
         return self.immagineAttuale
     
     def definisciSprite(self, p):
+        self.camminaSu = []
+        self.camminaGiu = []
+        self.camminaDestra = []
+        self.camminaSinistra = []
 
+        self.salvaSpriteCamminata(p, self.camminaSu, "su")
+        self.salvaSpriteCamminata(p, self.camminaGiu, "giu")
+        self.salvaSpriteCamminata(p, self.camminaDestra, "destra")
+        self.salvaSpriteCamminata(p, self.camminaSinistra, "sinistra")
+
+        """
         self.camminaSu = [
             f"./sprite/giocatore{p}/su/1.png",
             f"./sprite/giocatore{p}/su/2.png",
@@ -127,6 +136,13 @@ class Player():
             f"./sprite/giocatore{p}/sinistra/8.png",
             f"./sprite/giocatore{p}/sinistra/9.png"
         ]
+        """
+
+    def salvaSpriteCamminata(self, p, lis, dir): #lis=lista dir=direzione
+        for i in range(1,10):
+            stringa = f"./sprite/giocatore{p}/{dir}/{i}.png"
+            lis.append(stringa)
+
 
         
 

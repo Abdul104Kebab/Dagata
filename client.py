@@ -11,7 +11,8 @@ clientNumber = 0
 
 def redrawWindow(win, player, players):
     win.fill((255,0,0))
-    for i in players:
+    temp = sorted(players, key=lambda Player:Player.y)
+    for i in temp:
         if i!="players":
             i.draw(win)
 
