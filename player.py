@@ -88,59 +88,9 @@ class Player():
         self.salvaSpriteCamminata(p, self.camminaDestra, "destra")
         self.salvaSpriteCamminata(p, self.camminaSinistra, "sinistra")
 
-        """
-        self.camminaSu = [
-            f"./sprite/giocatore{p}/su/1.png",
-            f"./sprite/giocatore{p}/su/2.png",
-            f"./sprite/giocatore{p}/su/3.png",
-            f"./sprite/giocatore{p}/su/4.png",
-            f"./sprite/giocatore{p}/su/5.png",
-            f"./sprite/giocatore{p}/su/6.png",
-            f"./sprite/giocatore{p}/su/7.png",
-            f"./sprite/giocatore{p}/su/8.png",
-            f"./sprite/giocatore{p}/su/9.png"
-        ]
-
-        self.camminaGiu = [
-            f"./sprite/giocatore{p}/giu/1.png",
-            f"./sprite/giocatore{p}/giu/2.png",
-            f"./sprite/giocatore{p}/giu/3.png",
-            f"./sprite/giocatore{p}/giu/4.png",
-            f"./sprite/giocatore{p}/giu/5.png",
-            f"./sprite/giocatore{p}/giu/6.png",
-            f"./sprite/giocatore{p}/giu/7.png",
-            f"./sprite/giocatore{p}/giu/8.png",
-            f"./sprite/giocatore{p}/giu/9.png"
-        ]
-
-        self.camminaDestra = [
-            f"./sprite/giocatore{p}/destra/1.png",
-            f"./sprite/giocatore{p}/destra/2.png",
-            f"./sprite/giocatore{p}/destra/3.png",
-            f"./sprite/giocatore{p}/destra/4.png",
-            f"./sprite/giocatore{p}/destra/5.png",
-            f"./sprite/giocatore{p}/destra/6.png",
-            f"./sprite/giocatore{p}/destra/7.png",
-            f"./sprite/giocatore{p}/destra/8.png",
-            f"./sprite/giocatore{p}/destra/9.png"
-        ]
-
-        self.camminaSinistra = [
-            f"./sprite/giocatore{p}/sinistra/1.png",
-            f"./sprite/giocatore{p}/sinistra/2.png",
-            f"./sprite/giocatore{p}/sinistra/3.png",
-            f"./sprite/giocatore{p}/sinistra/4.png",
-            f"./sprite/giocatore{p}/sinistra/5.png",
-            f"./sprite/giocatore{p}/sinistra/6.png",
-            f"./sprite/giocatore{p}/sinistra/7.png",
-            f"./sprite/giocatore{p}/sinistra/8.png",
-            f"./sprite/giocatore{p}/sinistra/9.png"
-        ]
-        """
-
     def salvaSpriteCamminata(self, p, lis, dir): #lis=lista dir=direzione
         for i in range(1,10):
-            stringa = f"./sprite/giocatore{p}/{dir}/{i}.png"
+            stringa = f"./immagini/sprite/giocatore{p}/{dir}/{i}.png"
             lis.append(stringa)
 
 
