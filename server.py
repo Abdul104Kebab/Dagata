@@ -17,7 +17,7 @@ except socket.error as e:
 
 print("Waiting for a connection. SERVER STARTED")
 
-players = [Player(0, 0, 1), Player(0, 100, 2), Player(0, 200, 3), Player(0, 300, 4)]
+players = [Player(0, 0, 1, False), Player(0, 0, 2, False), Player(0, 0, 3, False), Player(0, 0, 4, False)]
 client_addresses = {}
 
 
@@ -36,14 +36,20 @@ def handle_client(data, addr):
 
 
     dati = pickle.loads(data)
+    
     # RISPOSTE
     if (dati == "connect"):
         s.sendto(pickle.dumps(player_id), addr)
+
+        players[player_id].visibilita = True
+
     elif (dati == "players"):
         s.sendto(pickle.dumps(players), addr)
+
     elif (type(dati) is Player):
         player_id = client_addresses[addr]
         players[player_id] = dati
+        #print("PLAYER ", player_id, players[player_id].x, "--", players[player_id].y)
 
 while True:
     try:

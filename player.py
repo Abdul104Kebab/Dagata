@@ -2,7 +2,7 @@ import pygame
 
 class Player():
 
-    def __init__(self, x, y, player):
+    def __init__(self, x, y, player, visibilita):
         self.x = x
         self.y = y
         self.vel = 3
@@ -20,8 +20,18 @@ class Player():
         self.left = False
         self.walkCount = 1
 
+        self.spostDestra = 0
+        self.spostSinistra = 0
 
-    def draw(self, win):
+        self.visibilita = visibilita
+
+        self.layer = 1
+        
+    def definisciSpostamenti(self, d, s):
+        self.spostDestra = d
+        self.spostSinistra = s
+
+    def draw(self, win, p, primoX, primoY, vis):
         imm = pygame.image.load(self.camminaGiu[0])
 
         if self.walkCount == 9:
@@ -40,25 +50,41 @@ class Player():
             self.walkCount += 1
 
         imm = pygame.transform.scale(imm, (self.width, self.height))
-        win.blit(imm, (self.x, self.y))
+        if (p+1 != self.player and vis):
+            win.blit(imm, (self.x + self.spostDestra - primoX, self.y + self.spostSinistra - primoY))
 
+        elif (vis or p+1 == self.player):
+            win.blit(imm, (self.spostDestra, self.spostSinistra))
+            
 
-
-
-    def move(self):
+    def move(self, mapTiles):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a]: #SINISTRA
+
             self.x -= self.vel
 
+            for sprite in mapTiles:
+                sprite.rect.x += self.vel
+
         if keys[pygame.K_d]: #DESTRA
+
             self.x += self.vel
+
+            for sprite in mapTiles:
+                sprite.rect.x -= self.vel
 
         if keys[pygame.K_w]: #ALTO
             self.y -= self.vel
 
+            for sprite in mapTiles:
+                sprite.rect.y += self.vel
+
         if keys[pygame.K_s]: #BASSO
             self.y += self.vel
+
+            for sprite in mapTiles:
+                sprite.rect.y -= self.vel
         
         self.down = keys[pygame.K_s]
         self.up = keys[pygame.K_w]
