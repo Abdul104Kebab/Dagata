@@ -4,7 +4,7 @@ import sys
 from player import Player
 import pickle
 
-server = "192.168.178.104"
+server = "172.22.20.132"
 port = 5555
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
