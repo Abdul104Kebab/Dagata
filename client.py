@@ -16,20 +16,29 @@ offy = height/2 - 25
 ###########################################################
 tmx_data = load_pygame("./immagini/tilemap/mappaProva.tmx")
 sprite_group = pygame.sprite.Group()
+map_rects = {}
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, pos, surf, groups):
+    def __init__(self, pos, surf, groups, Templist):
         super().__init__(groups)
         self.image = surf
         self.rect = self.image.get_rect(topleft = pos)
+        tempRect = pygame.Rect((pos[0]-offx, pos[1]-offy), (50, 50))
+        Templist.append(tempRect)
 
+cont = 1
 for layer in tmx_data.visible_layers:
+    temp = []
     if hasattr(layer, "data"):
         for x,y,surf in layer.tiles():
             pos = (x*50 + offx, y*50 + offy)
-            Tile(pos = pos, surf = surf, groups = sprite_group)
+            Tile(pos = pos, surf = surf, groups = sprite_group, Templist = temp)
+        map_rects[cont] = temp
+        cont += 1
 
+#print(map_rects)
 
+"""
 print("#######")
 
 cont = 1
@@ -39,6 +48,7 @@ for layer in tmx_data.visible_layers:
     cont += 1
 
 print("#######")
+"""
 
 clientNumber = 0
 
@@ -64,7 +74,7 @@ def main():
 
     plrs[p].definisciSpostamenti(offx, offy)
     while run:
-        clock.tick(60)
+        clock.tick(40)
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -73,7 +83,7 @@ def main():
 
         
         
-        plrs[p].move(sprite_group)
+        plrs[p].move(sprite_group, map_rects)
         redrawWindow(win, p, plrs)
         n.update(plrs[p])
         plrs = n.send()

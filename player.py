@@ -5,7 +5,7 @@ class Player():
     def __init__(self, x, y, player, visibilita):
         self.x = x
         self.y = y
-        self.vel = 3
+        self.vel = 10
 
         self.width = 50
         self.height = 50
@@ -57,34 +57,40 @@ class Player():
             win.blit(imm, (self.spostDestra, self.spostSinistra))
             
 
-    def move(self, mapTiles):
+    def move(self, mapTiles, mapRects):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a]: #SINISTRA
+            tempRect = pygame.Rect((self.x - 2, self.y), (self.width, self.height))
 
-            self.x -= self.vel
-
-            for sprite in mapTiles:
-                sprite.rect.x += self.vel
-
+            if self.controllaCollisioni(mapRects, tempRect):
+                self.x -= self.vel
+                for sprite in mapTiles:
+                    sprite.rect.x += self.vel
+            
         if keys[pygame.K_d]: #DESTRA
+            tempRect = pygame.Rect((self.x + 2, self.y), (self.width, self.height))
 
-            self.x += self.vel
-
-            for sprite in mapTiles:
-                sprite.rect.x -= self.vel
+            if self.controllaCollisioni(mapRects, tempRect):
+                self.x += self.vel
+                for sprite in mapTiles:
+                    sprite.rect.x -= self.vel
 
         if keys[pygame.K_w]: #ALTO
-            self.y -= self.vel
+            tempRect = pygame.Rect((self.x, self.y - 2), (self.width, self.height))
 
-            for sprite in mapTiles:
-                sprite.rect.y += self.vel
+            if self.controllaCollisioni(mapRects, tempRect):
+                self.y -= self.vel
+                for sprite in mapTiles:
+                    sprite.rect.y += self.vel
 
         if keys[pygame.K_s]: #BASSO
-            self.y += self.vel
-
-            for sprite in mapTiles:
-                sprite.rect.y -= self.vel
+            tempRect = pygame.Rect((self.x, self.y + 2), (self.width, self.height))
+            
+            if self.controllaCollisioni(mapRects, tempRect):
+                self.y += self.vel
+                for sprite in mapTiles:
+                    sprite.rect.y -= self.vel
         
         self.down = keys[pygame.K_s]
         self.up = keys[pygame.K_w]
@@ -95,9 +101,17 @@ class Player():
         if (keys[pygame.K_a] == keys[pygame.K_s] == keys[pygame.K_d] == keys[pygame.K_w] == False):
             self.up = False
 
-        self.update()
+        self.update(mapTiles)
 
-    def update(self):
+
+    def controllaCollisioni(self, mapRects, tempRect):
+        for rectLayer in mapRects:
+            if rectLayer > self.layer:
+                for rect in mapRects[rectLayer]:
+                    if tempRect.colliderect(rect):
+                        return False
+        return True
+    def update(self, map):
         self.rect = (self.x, self.y, self.width, self.height)
 
     def immagineGiocatore(self):
