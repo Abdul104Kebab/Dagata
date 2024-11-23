@@ -13,3 +13,7 @@ multiplayer -->
 
 IDEE:
  - ruolo a uno -> collaboratore bot
+
+
+
+ SPRITE DA FARE -> giocatore3, 5, 6

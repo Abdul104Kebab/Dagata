@@ -23,7 +23,7 @@ class Network:
     def send(self):
         try:
             self.client.sendto(pickle.dumps("players"), self.addr)
-            data, _ = self.client.recvfrom(2048*4)
+            data, _ = self.client.recvfrom(2048*8)
             return pickle.loads(data)
         except socket.error as e:
             print(e)
@@ -35,6 +35,14 @@ class Network:
         except socket.error as e:
             print(e)
             return None
-
+    
+    def getNpc(self):
+        try:
+            self.client.sendto(pickle.dumps("npc"), self.addr)
+            data, _ = self.client.recvfrom(2048*4)
+            return pickle.loads(data)
+        except socket.error as e:
+            print(e)
+            return None
 
 

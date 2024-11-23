@@ -2,13 +2,13 @@ import pygame
 
 class Player():
 
-    def __init__(self, x, y, player, visibilita):
-        self.x = x
-        self.y = y
-        self.vel = 10
+    def __init__(self, spawn, player):
+        self.x = spawn[0] #ascisse x
+        self.y = spawn[1] #ordinate y
+        self.vel = 4
 
-        self.width = 50
-        self.height = 50
+        self.width = 55
+        self.height = 55
         self.player = player
 
         self.definisciSprite(player)
@@ -23,9 +23,9 @@ class Player():
         self.spostDestra = 0
         self.spostSinistra = 0
 
-        self.visibilita = visibilita
+        self.visibilita = False
 
-        self.layer = 1
+        self.layer = 3
         
     def definisciSpostamenti(self, d, s):
         self.spostDestra = d
@@ -61,7 +61,7 @@ class Player():
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a]: #SINISTRA
-            tempRect = pygame.Rect((self.x - 2, self.y), (self.width, self.height))
+            tempRect = pygame.Rect((self.x - self.vel, self.y), (self.width, self.height))
 
             if self.controllaCollisioni(mapRects, tempRect):
                 self.x -= self.vel
@@ -69,7 +69,7 @@ class Player():
                     sprite.rect.x += self.vel
             
         if keys[pygame.K_d]: #DESTRA
-            tempRect = pygame.Rect((self.x + 2, self.y), (self.width, self.height))
+            tempRect = pygame.Rect((self.x + self.vel, self.y), (self.width, self.height))
 
             if self.controllaCollisioni(mapRects, tempRect):
                 self.x += self.vel
@@ -77,7 +77,7 @@ class Player():
                     sprite.rect.x -= self.vel
 
         if keys[pygame.K_w]: #ALTO
-            tempRect = pygame.Rect((self.x, self.y - 2), (self.width, self.height))
+            tempRect = pygame.Rect((self.x, self.y - self.vel), (self.width, self.height))
 
             if self.controllaCollisioni(mapRects, tempRect):
                 self.y -= self.vel
@@ -85,7 +85,7 @@ class Player():
                     sprite.rect.y += self.vel
 
         if keys[pygame.K_s]: #BASSO
-            tempRect = pygame.Rect((self.x, self.y + 2), (self.width, self.height))
+            tempRect = pygame.Rect((self.x, self.y + self.vel), (self.width, self.height))
             
             if self.controllaCollisioni(mapRects, tempRect):
                 self.y += self.vel
@@ -109,6 +109,7 @@ class Player():
             if rectLayer > self.layer:
                 for rect in mapRects[rectLayer]:
                     if tempRect.colliderect(rect):
+                        print(rect.x, rect.y, "-", tempRect.x, tempRect.y)
                         return False
         return True
     def update(self, map):
