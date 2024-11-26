@@ -18,9 +18,10 @@ except socket.error as e:
 
 print("Waiting for a connection. SERVER STARTED")
 
-spawn_point = (500, 500)
+spawn_point = (100, 20)
+npc_range = 40
 
-npcs = [Npc(1, 100, 100), Npc(2, 150, 100), Npc(3, 200, 100)]
+npcs = [Npc("Beppe", 100, 100, npc_range), Npc("Gaffuri", 250, 100, npc_range), Npc("Dagata", 400, 100, npc_range)]
 
 players = [Player(spawn_point, 1), Player(spawn_point, 2), Player(spawn_point, 3), Player(spawn_point, 4), Player(spawn_point, 5), Player(spawn_point, 6)]
 client_addresses = {}

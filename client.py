@@ -3,8 +3,10 @@ import sys
 from network import Network
 from player import Player
 from pytmx.util_pygame import load_pygame
+import time
 
 pygame.init()
+pygame.mixer.init()
 width = 650
 height = 500
 win = pygame.display.set_mode((width, height))
@@ -12,6 +14,18 @@ pygame.display.set_caption("Client")
 
 offx = width/2 - 25 #25 è la metà della larghezza del mio sprite (50x50 px)
 offy = height/2 - 25
+
+##################################SUONI##########################
+
+effetto1 = pygame.mixer.Sound("sound/npcSpeech/text-speech.mp3")
+
+#----------------------------------------------------------------#
+
+
+pygame.mixer.music.load("sound/sottofondo.mp3") #carica la canzone
+pygame.mixer.music.play(loops=-1, fade_ms=2000) #loops quante volte si ripete (-1 infinite volte), fade_ms il dafe iniziale
+
+
 
 ###########################################################
 tmx_data = load_pygame("./immagini/tilemap/mappa.tmx")
@@ -58,8 +72,6 @@ def creaMappa(plrX, plrY):
                     Tile(plrX, plrY, pos = pos, surf = surf, groups = sprite_group_secondo, groupTot = sprite_group, Templist = temp)
             map_rects[cont] = temp
             cont += 1
-    
-
 
 def redrawWindow(win, player, players, npcs):
     win.fill((0, 128, 255))
@@ -99,8 +111,8 @@ def main():
                 run = False
                 pygame.quit()
 
-        
-        plrs[p].move(sprite_group, map_rects)
+
+        plrs[p].updateP(sprite_group, map_rects, npcs)
         redrawWindow(win, p, plrs, npcs)
         n.update(plrs[p])
         plrs = n.send()

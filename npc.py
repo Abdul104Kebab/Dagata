@@ -1,12 +1,11 @@
 import pygame
 
-
 class Npc():
 
-    def __init__(self, id, x, y):
+    def __init__(self, prof, x, y, range):
         self.width = 55
         self.height = 55
-        self.npcId = id
+        self.prof = prof
 
         self.x = x
         self.y = y
@@ -16,23 +15,18 @@ class Npc():
         self.offx = self.winW/2 - 25 #25 è la metà della larghezza del mio sprite (50x50 px)
         self.offy = self.winH/2 - 25
 
+        self.range = range
+        self.rect = pygame.Rect((self.x - range/2 , self.y - range/2), (self.width + range, self.height + range))
+
         self.conversazione = self.stabilisciConversazione()
         #print(self.conversazione)
 
-        self.sprite = f"immagini/sprite/giocatore{id}/giu/1.png"
+        self.sprite = f"immagini/npc/{prof}.png"
         
 
     def stabilisciConversazione(self):
 
-        match self.npcId:
-            case 1:
-                prof = "Dagata"
-            case 2:
-                prof = "AmatoG"
-            case 3:
-                prof = "Intra"
-
-        file = open(f"dialoghi/{prof}.txt", "r")
+        file = open(f"dialoghi/{self.prof}.txt", "r")
         data = file.read()
         file.close()
         return data.split("\n")
@@ -42,6 +36,10 @@ class Npc():
         imm = pygame.transform.scale(imm, (self.width, self.height))
         win.blit(imm, (self.x + self.offx - primoX, self.y + self.offy - primoY))
 
+    def abbastanzaVicino(self, pos, grandezza):
+        tempRect = pygame.Rect(pos, grandezza)
+        if tempRect.colliderect(self.rect): return self.conversazione
+    
 
 
 

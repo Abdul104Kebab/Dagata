@@ -1,4 +1,9 @@
 import pygame
+import time
+from npc import Npc
+
+pygame.mixer.init()
+effetto1 = pygame.mixer.Sound("sound/npcSpeech/text-speech.mp3")
 
 class Player():
 
@@ -26,7 +31,12 @@ class Player():
         self.visibilita = False
 
         self.layer = 3
-        
+
+##############################################
+    def updateP(self, sprite_group, map_rects, npcs):
+        self.move(sprite_group, map_rects)
+        self.controlloNpc(npcs)
+
     def definisciSpostamenti(self, d, s):
         self.spostDestra = d
         self.spostSinistra = s
@@ -56,6 +66,13 @@ class Player():
         elif (vis or p+1 == self.player):
             win.blit(imm, (self.spostDestra, self.spostSinistra))
             
+
+    def controlloNpc(self, npcs):
+        keys = pygame.key.get_pressed()
+        
+        if keys[pygame.K_n]: #SINISTRA
+            for n in npcs:
+                self.parlantina(n.abbastanzaVicino((self.x, self.y), (self.width, self.height)))
 
     def move(self, mapTiles, mapRects):
         keys = pygame.key.get_pressed()
@@ -133,6 +150,15 @@ class Player():
         for i in range(1,10):
             stringa = f"./immagini/sprite/giocatore{p}/{dir}/{i}.png"
             lis.append(stringa)
+
+    def parlantina(self, listaStringhe):
+        if (listaStringhe != None):
+            for stringa in listaStringhe:
+                for l in stringa:
+                    print(l, end="")
+                    effetto1.play()
+                    time.sleep(0.05)
+                print("\n")
 
 
         
