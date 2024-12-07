@@ -1,4 +1,5 @@
 import pygame
+import time
 
 class Npc():
 
@@ -22,6 +23,8 @@ class Npc():
         #print(self.conversazione)
 
         self.sprite = f"immagini/npc/{prof}.png"
+        self.interagisci = "immagini/npc/interagisci.png" #percorso tasti interazione
+        self.grandInteragisci = (16, 16) #grandezza del tasto per interazione
         
 
     def stabilisciConversazione(self):
@@ -36,9 +39,35 @@ class Npc():
         imm = pygame.transform.scale(imm, (self.width, self.height))
         win.blit(imm, (self.x + self.offx - primoX, self.y + self.offy - primoY))
 
-    def abbastanzaVicino(self, pos, grandezza):
+    def drawCliccabile(self, win, primoX, primoY):
+        imm = pygame.image.load(self.interagisci)
+        imm = pygame.transform.scale(imm, self.grandInteragisci)
+        
+        self.draw_text(win, "per interagire", (255,255,255), (100, 100), imm, primoX, primoY)
+
+    def draw_text(self, win, text, col, pos, intr, primoX, primoY):
+        font = pygame.font.Font("./immagini/utility/shiny.ttf", 17)
+        img = font.render(text, True, col)
+        win.blit(img, (self.x + self.width/2 - (intr.get_width() + img.get_width() + 6)/2 + intr.get_width() + 3 +  (self.offx - primoX), self.y + self.height + 10 + (self.offy - primoY)))
+        win.blit(intr, (self.x + self.width/2 - (intr.get_width() + img.get_width() + 6)/2 + (self.offx - primoX), self.y + self.height + 10 + (self.offy - primoY)))
+
+    def abbastanzaVicino(self, pos, grandezza, win, primoX, primoY):
         tempRect = pygame.Rect(pos, grandezza)
-        if tempRect.colliderect(self.rect): return self.conversazione
+        if tempRect.colliderect(self.rect):
+            self.drawCliccabile(win, primoX, primoY) 
+            return self.conversazione
+            
+
+    def parlantina(self, listaStringhe, effetto1):
+        if (listaStringhe != None):
+            for stringa in listaStringhe:
+                for l in stringa:
+                    print(l, end="")
+                    effetto1.play()
+                    time.sleep(0.05)
+                print("\n")
+    
+
     
 
 

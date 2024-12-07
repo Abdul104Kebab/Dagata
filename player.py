@@ -33,9 +33,9 @@ class Player():
         self.layer = 3
 
 ##############################################
-    def updateP(self, sprite_group, map_rects, npcs):
+    def updateP(self, sprite_group, map_rects, npcs, win, primoX, primoY):
         self.move(sprite_group, map_rects)
-        self.controlloNpc(npcs)
+        self.controlloNpc(npcs, win, primoX, primoY)
 
     def definisciSpostamenti(self, d, s):
         self.spostDestra = d
@@ -67,12 +67,13 @@ class Player():
             win.blit(imm, (self.spostDestra, self.spostSinistra))
             
 
-    def controlloNpc(self, npcs):
+    def controlloNpc(self, npcs, win, primoX, primoY):
         keys = pygame.key.get_pressed()
         
-        if keys[pygame.K_n]: #SINISTRA
-            for n in npcs:
-                self.parlantina(n.abbastanzaVicino((self.x, self.y), (self.width, self.height)))
+        #if keys[pygame.K_n]: #SINISTRA
+        for n in npcs:
+            n.abbastanzaVicino((self.x, self.y), (self.width, self.height), win, primoX, primoY)
+                #n.parlantina(n.abbastanzaVicino((self.x, self.y), (self.width, self.height), win), effetto1)
 
     def move(self, mapTiles, mapRects):
         keys = pygame.key.get_pressed()
@@ -151,14 +152,7 @@ class Player():
             stringa = f"./immagini/sprite/giocatore{p}/{dir}/{i}.png"
             lis.append(stringa)
 
-    def parlantina(self, listaStringhe):
-        if (listaStringhe != None):
-            for stringa in listaStringhe:
-                for l in stringa:
-                    print(l, end="")
-                    effetto1.play()
-                    time.sleep(0.05)
-                print("\n")
+
 
 
         

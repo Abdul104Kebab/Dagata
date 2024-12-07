@@ -87,6 +87,7 @@ def redrawWindow(win, player, players, npcs):
         cont += 1
     sprite_group_secondo.draw(win)
     
+    players[player].updateP(sprite_group, map_rects, npcs, win, players[player].x, players[player].y)
 
     pygame.display.update()
 
@@ -112,7 +113,7 @@ def main():
                 pygame.quit()
 
 
-        plrs[p].updateP(sprite_group, map_rects, npcs)
+        #plrs[p].updateP(sprite_group, map_rects, npcs, win)
         redrawWindow(win, p, plrs, npcs)
         n.update(plrs[p])
         plrs = n.send()
