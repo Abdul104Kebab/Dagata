@@ -68,11 +68,11 @@ class Player():
             
 
     def controlloNpc(self, npcs, win, primoX, primoY):
-        keys = pygame.key.get_pressed()
         
         #if keys[pygame.K_n]: #SINISTRA
         for n in npcs:
-            n.abbastanzaVicino((self.x, self.y), (self.width, self.height), win, primoX, primoY)
+            n.abbastanzaVicino((self.x, self.y), (self.width, self.height))
+            n.controlla_conversazione(win, primoX, primoY)
                 #n.parlantina(n.abbastanzaVicino((self.x, self.y), (self.width, self.height), win), effetto1)
 
     def move(self, mapTiles, mapRects):
