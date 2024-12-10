@@ -4,6 +4,8 @@ from network import Network
 from player import Player
 from pytmx.util_pygame import load_pygame
 import time
+from schermata_iniziale import SchermataIniziale
+from schermata_caricamento import SchermataCaricamento
 
 pygame.init()
 pygame.mixer.init()
@@ -16,6 +18,8 @@ offx = width/2 - 25 #25 è la metà della larghezza del mio sprite (50x50 px)
 offy = height/2 - 25
 
 ##################################SUONI##########################
+muto = False
+volume = 0.5
 
 effetto1 = pygame.mixer.Sound("sound/npcSpeech/text-speech.mp3")
 
@@ -93,32 +97,53 @@ def redrawWindow(win, player, players, npcs, boards):
     pygame.display.update()
 
 def main():
-    run = True
+    global muto, volume, booleano
 
-    n = Network()
-    p = n.getP()
-    print(p, "-----")
-    clock = pygame.time.Clock()
-    plrs = n.send() #mi salvo l'intera lista dei giocatori
-    npcs = n.getNpc()
-    boards = n.getBoards()
+    while True:
+        schermata = SchermataIniziale(win, width, height)
+        schermata_caricamento = SchermataCaricamento(win, width, height)
 
-    creaMappa(plrs[p].x, plrs[p].y)
+        risultato = schermata.mostra()
 
-    plrs[p].definisciSpostamenti(offx, offy)
-    while run:
-        clock.tick(40)
-        
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-                pygame.quit()
+        if risultato == "opzione":
+            if muto:
+                pygame.mixer.music.set_volume(volume)
+                muto = False
+            else:
+                volume = pygame.mixer.music.get_volume()
+                pygame.mixer.music.set_volume(0)
+                muto = True
+            schermata.disegna_volume()
+
+        elif risultato == True:
+            schermata_caricamento.mostra()
+
+            run = True
+
+            n = Network()
+            p = n.getP()
+            print(p, "-----")
+            clock = pygame.time.Clock()
+            plrs = n.send() #mi salvo l'intera lista dei giocatori
+            npcs = n.getNpc() 
+            boards = n.getBoards()  
+
+            creaMappa(plrs[p].x, plrs[p].y)
+            
+            plrs[p].definisciSpostamenti(offx, offy)
+            while run:
+                clock.tick(40)
+                
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        run = False
+                        pygame.quit()
 
 
-        #plrs[p].updateP(sprite_group, map_rects, npcs, win)
-        redrawWindow(win, p, plrs, npcs, boards)
-        n.update(plrs[p])
-        plrs = n.send()
+                #plrs[p].updateP(sprite_group, map_rects, npcs)
+                redrawWindow(win, p, plrs, npcs, boards)
+                n.update(plrs[p])
+                plrs = n.send()
 
 main()
 

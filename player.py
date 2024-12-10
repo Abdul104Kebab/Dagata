@@ -134,7 +134,7 @@ class Player():
             if rectLayer > self.layer:
                 for rect in mapRects[rectLayer]:
                     if tempRect.colliderect(rect):
-                        print(rect.x, rect.y, "-", tempRect.x, tempRect.y)
+                        #print(rect.x, rect.y, "-", tempRect.x, tempRect.y)
                         return False
         return True
     def update(self, map):

@@ -23,8 +23,9 @@ spawn_point = (100, 70)
 use_range = 40
 grand_tile = 32
 
-npcs = [Npc("Beppe", 30, 270, use_range), Npc("Dagata", 285, 32, use_range)] #Npc("Gaffuri", 250, 100, use_range)
-boards = [Board(1, 15*grand_tile, 1*grand_tile, use_range, False),
+npcs = [Npc("Beppe", 205, 310, use_range), Npc("Dagata", 285, 32, use_range)] #Npc("Gaffuri", 250, 100, use_range)
+boards = [Board(0, 0*grand_tile, 11*grand_tile, use_range, True),
+            Board(1, 15*grand_tile, 1*grand_tile, use_range, False),
             Board(5, 33*grand_tile, 1*grand_tile, use_range, False),
             Board(7, 43*grand_tile, 1*grand_tile, use_range, False),
             Board(2, 21*grand_tile,  18*grand_tile, use_range, True),
