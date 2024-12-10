@@ -81,6 +81,7 @@ def redrawWindow(win, player, players, npcs, boards):
     cont = 0
     for npc in npcs:
         npc.draw(win, players[player].x, players[player].y)
+
     for i in players:
         if i!="players":
             i.draw(win, player, players[player].x, players[player].y, players[cont].visibilita)

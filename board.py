@@ -2,9 +2,12 @@ import pygame
 
 class Board():
 
-    def __init__(self, board, x, y, range):
-        self.width = 55
-        self.height = 20
+    def __init__(self, board, x, y, range, vert):
+        self.width = 96
+        self.height = 32
+        if(vert):
+            self.width, self.height = self.height, self.width #se è verticale cambio gli assi
+
         self.board = board
 
         self.x = x
@@ -20,7 +23,7 @@ class Board():
 
         self.immagine = f"./immagini/slide/{board}.png"
 
-        self.sprite = f"immagini/board/board.png"
+        self.sprite = f"immagini/slide/board.png"
         self.interagisci = "immagini/npc/interagisci.png" #percorso tasti interazione
         self.grandInteragisci = (16, 16) #grandezza del tasto per interazione
         self.grand_slide = (605, 340)
@@ -32,10 +35,12 @@ class Board():
 
         self.lung_riga = 27
     
+    #PER PROGETTAZIONE -> SERVITA A VEDERE GRAFICAMENTE DOVE FOSSERO LE COLLISIONI CON LE LAVAGNE
     def draw(self, win, primoX, primoY):
         imm = pygame.image.load(self.sprite)
         imm = pygame.transform.scale(imm, (self.width, self.height))
         win.blit(imm, (self.x + self.offx - primoX, self.y + self.offy - primoY))
+    ##
 
     def drawCliccabile(self, win, primoX, primoY):
         imm = pygame.image.load(self.interagisci)
