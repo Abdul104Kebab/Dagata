@@ -31,6 +31,9 @@ class Npc():
         self.vicino = False # se è abbastanza vicino all'npc
         self.conv = False # se la conversazione è stata attivata
         self.goClick = 0 # a che punto della conversazione si è.
+        self.convDone = False
+
+        self.lung_riga = 27
 
     def stabilisciConversazione(self):
 
@@ -80,6 +83,7 @@ class Npc():
                 self.goClick = 0
             if keys[pygame.K_SPACE]:
                 self.goClick += 1
+                self.convDone = True
             
             self.parte_conversazione(win, primoX, primoY)
         
@@ -90,7 +94,8 @@ class Npc():
             pos = ((self.winW - imm.get_width()) / 2, self.winH - imm.get_height() + 30)
             win.blit(imm, pos)
 
-            self.draw_conversation_text(win, (0, 0, 0), pos, 24)
+            self.draw_conversation_text(win, (0, 0, 0), pos, 19)
+
 
     def draw_conversation_text(self, win, col, pos, size):
         font = pygame.font.Font("./immagini/utility/shiny.ttf", 30)
@@ -99,17 +104,27 @@ class Npc():
 
         try:
             stringa = self.conversazione[self.goClick]
+            cont = 0
+            cont1 = 0
             for l in range ( len(stringa) ):
-                win.blit( self.ridai_lettera(stringa[l], col), (pos[0] + 100 + size*l, pos[1] + 200))
-                #effetto1.play()
+                if(l >= self.lung_riga * cont):
+                    cont += 1
+                    cont1 = 0
+                win.blit( self.ridai_lettera(stringa[l], col), (pos[0] + 45 + size*cont1, pos[1] + 110 + (size * cont)))
+                cont1 += 1
+
+            pygame.display.update()
+            if(self.convDone == True):
+                time.sleep(1)
+                self.convDone = False
         except:
             self.conv = False
             self.goClick = 0
 
-        print("\n")
+
     
     def ridai_lettera(self, l, col):
-        font = pygame.font.SysFont("./immagini/utility/shiny.ttf", 30)
+        font = pygame.font.Font("./immagini/utility/Namaku.ttf", 24)
         lettera = font.render(l, True, col)
         return lettera
 #
