@@ -19,18 +19,18 @@ except socket.error as e:
 
 print("Waiting for a connection. SERVER STARTED")
 
-spawn_point = (100, 20)
+spawn_point = (100, 70)
 use_range = 40
 
-npcs = [Npc("Beppe", 100, 100, use_range), Npc("Gaffuri", 250, 100, use_range), Npc("Dagata", 400, 100, use_range)]
-boards = [Board(1, 100, 200, use_range), 
-          Board(2, 100, 200, use_range),
-          Board(3, 100, 200, use_range),
-          Board(4, 100, 200, use_range),
-          Board(5, 100, 200, use_range),
-          Board(6, 100, 200, use_range),
-          Board(7, 100, 200, use_range),
-          Board(8, 100, 200, use_range),]
+npcs = [Npc("Beppe", 30, 270, use_range), Npc("Gaffuri", 250, 100, use_range), Npc("Dagata", 305, 32, use_range)]
+boards = [Board(1, 100, 200, use_range)]
+"""Board(2, 100, 200, use_range),
+Board(3, 100, 200, use_range),
+Board(4, 100, 200, use_range),
+Board(5, 100, 200, use_range),
+Board(6, 100, 200, use_range),
+Board(7, 100, 200, use_range),
+Board(8, 100, 200, use_range),"""
 
 players = [Player(spawn_point, 1), Player(spawn_point, 2), Player(spawn_point, 3), Player(spawn_point, 4), Player(spawn_point, 5), Player(spawn_point, 6)]
 client_addresses = {}

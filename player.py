@@ -30,7 +30,7 @@ class Player():
 
         self.visibilita = False
 
-        self.layer = 3
+        self.layer = 1
 
 ##############################################
     def updateP(self, sprite_group, map_rects, npcs, win, primoX, primoY, boards):
