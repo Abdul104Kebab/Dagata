@@ -73,7 +73,7 @@ def creaMappa(plrX, plrY):
             map_rects[cont] = temp
             cont += 1
 
-def redrawWindow(win, player, players, npcs):
+def redrawWindow(win, player, players, npcs, boards):
     win.fill((0, 128, 255))
     
     sprite_group.draw(win)
@@ -87,7 +87,7 @@ def redrawWindow(win, player, players, npcs):
         cont += 1
     sprite_group_secondo.draw(win)
     
-    players[player].updateP(sprite_group, map_rects, npcs, win, players[player].x, players[player].y)
+    players[player].updateP(sprite_group, map_rects, npcs, win, players[player].x, players[player].y, boards)
 
     pygame.display.update()
 
@@ -100,6 +100,7 @@ def main():
     clock = pygame.time.Clock()
     plrs = n.send() #mi salvo l'intera lista dei giocatori
     npcs = n.getNpc()
+    boards = n.getBoards()
 
     creaMappa(plrs[p].x, plrs[p].y)
 
@@ -114,7 +115,7 @@ def main():
 
 
         #plrs[p].updateP(sprite_group, map_rects, npcs, win)
-        redrawWindow(win, p, plrs, npcs)
+        redrawWindow(win, p, plrs, npcs, boards)
         n.update(plrs[p])
         plrs = n.send()
 

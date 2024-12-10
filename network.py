@@ -44,5 +44,14 @@ class Network:
         except socket.error as e:
             print(e)
             return None
+        
+    def getBoards(self):
+        try:
+            self.client.sendto(pickle.dumps("boards"), self.addr)
+            data, _ = self.client.recvfrom(2048*4)
+            return pickle.loads(data)
+        except socket.error as e:
+            print(e)
+            return None
 
 

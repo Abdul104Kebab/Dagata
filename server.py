@@ -3,6 +3,7 @@ from _thread import *
 import sys
 from player import Player
 from npc import Npc
+from board import Board
 import pickle
 
 server = "192.168.178.104"
@@ -19,9 +20,17 @@ except socket.error as e:
 print("Waiting for a connection. SERVER STARTED")
 
 spawn_point = (100, 20)
-npc_range = 40
+use_range = 40
 
-npcs = [Npc("Beppe", 100, 100, npc_range), Npc("Gaffuri", 250, 100, npc_range), Npc("Dagata", 400, 100, npc_range)]
+npcs = [Npc("Beppe", 100, 100, use_range), Npc("Gaffuri", 250, 100, use_range), Npc("Dagata", 400, 100, use_range)]
+boards = [Board(1, 100, 200, use_range), 
+          Board(2, 100, 200, use_range),
+          Board(3, 100, 200, use_range),
+          Board(4, 100, 200, use_range),
+          Board(5, 100, 200, use_range),
+          Board(6, 100, 200, use_range),
+          Board(7, 100, 200, use_range),
+          Board(8, 100, 200, use_range),]
 
 players = [Player(spawn_point, 1), Player(spawn_point, 2), Player(spawn_point, 3), Player(spawn_point, 4), Player(spawn_point, 5), Player(spawn_point, 6)]
 client_addresses = {}
@@ -54,6 +63,9 @@ def handle_client(data, addr):
 
     elif (dati == "npc"):
         s.sendto(pickle.dumps(npcs), addr)
+
+    elif (dati == "boards"):
+        s.sendto(pickle.dumps(boards), addr)
 
     elif (type(dati) is Player):
         player_id = client_addresses[addr]

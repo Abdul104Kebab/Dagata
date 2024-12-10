@@ -33,9 +33,10 @@ class Player():
         self.layer = 3
 
 ##############################################
-    def updateP(self, sprite_group, map_rects, npcs, win, primoX, primoY):
+    def updateP(self, sprite_group, map_rects, npcs, win, primoX, primoY, boards):
         self.move(sprite_group, map_rects)
         self.controlloNpc(npcs, win, primoX, primoY)
+        self.controlloBoard(boards, win, primoX, primoY)
 
     def definisciSpostamenti(self, d, s):
         self.spostDestra = d
@@ -73,6 +74,12 @@ class Player():
         for n in npcs:
             n.abbastanzaVicino((self.x, self.y), (self.width, self.height))
             n.controlla_conversazione(win, primoX, primoY)
+                #n.parlantina(n.abbastanzaVicino((self.x, self.y), (self.width, self.height), win), effetto1)
+
+    def controlloBoard(self, boards, win, primoX, primoY):
+        for b in boards:
+            b.abbastanzaVicino((self.x, self.y), (self.width, self.height))
+            b.controlla_conversazione(win, primoX, primoY)
                 #n.parlantina(n.abbastanzaVicino((self.x, self.y), (self.width, self.height), win), effetto1)
 
     def move(self, mapTiles, mapRects):
