@@ -78,7 +78,7 @@ def creaMappa(plrX, plrY):
             cont += 1
 
 def redrawWindow(win, player, players, npcs, boards):
-    win.fill((0, 128, 255))
+    win.fill((0, 128, 255)) 
     
     sprite_group.draw(win)
     #temp = sorted(players, key=lambda Player:Player.y)

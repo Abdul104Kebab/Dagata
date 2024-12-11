@@ -6,7 +6,7 @@ from npc import Npc
 from board import Board
 import pickle
 
-server = "192.168.178.104"
+server = "10.1.0.244"
 port = 5555
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
